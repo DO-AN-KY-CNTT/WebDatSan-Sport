@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SportBooking - Trọn Bộ 20 Biểu Đồ UML Hệ Thống</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: #f8fafc; }
+    .mermaid-container { background: #ffffff; border-radius: 0.75rem; padding: 1.5rem; overflow-x: auto; min-height: 250px; display: flex; justify-content: center; align-items: center; }
+    .mermaid { width: 100%; text-align: center; }
+    .nav-link.active { background-color: #2563eb; color: #ffffff; font-weight: 600; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  <!-- HEADER -->
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 backdrop-blur bg-opacity-90">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl font-black bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+          ⚡ SportBooking UML Viewer
+        </span>
+        <span class="text-xs bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2.5 py-0.5 rounded-full font-semibold">
+          20 Biểu đồ Full HD
+        </span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="window.print()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm transition flex items-center gap-2">
+          <i class="fa-solid fa-print"></i> In / Xuất PDF
+        </button>
+        <a href="http://localhost:5173" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition flex items-center gap-2">
+          <i class="fa-solid fa-globe"></i> Mở Web App
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="lg:col-span-1">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 sticky top-24 space-y-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 px-2">Phân Hệ Chức Năng</div>
+        <nav class="space-y-1">
+          <a href="#overview" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            🏛️ 0. Tổng quan Hệ thống
+          </a>
+          <a href="#module-1" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            🔐 1. Xác thực & Phân quyền (Auth)
+          </a>
+          <a href="#module-2" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            ⚽ 2. Sân & Đặt sân chống trùng lịch
+          </a>
+          <a href="#module-3" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            📅 3. Ca làm & Chấm công QR / Audit
+          </a>
+          <a href="#module-4" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            📝 4. Nghỉ phép & Phê duyệt
+          </a>
+          <a href="#module-5" class="nav-link block px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 transition">
+            💰 5. Bảng lương & Dashboard KPI
+          </a>
+        </nav>
+
+        <div class="pt-4 border-t border-slate-800">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-400 px-2 mb-2">Loại Biểu Đồ (Mỗi chức năng 4 loại)</div>
+          <div class="grid grid-cols-2 gap-1.5 text-xs text-slate-400 px-2">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Use Case</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Hoạt động</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Tuần tự</span>
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Lớp (Class)</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DIAGRAM DISPLAY -->
+    <main class="lg:col-span-3 space-y-12">
+      
+      <!-- SECTION 0: TỔNG QUAN -->
+      <section id="overview" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            🏛️ Tổng Quan Hệ Thống SportBooking
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Phân định vai trò tác nhân (Customer, Staff, Manager, Admin) và 4 phân hệ chính.</p>
+        </div>
+
+        <!-- Diagram Card -->
+        <div id="card-0" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">TỔNG QUAN</span>
+              <h3 class="font-bold text-slate-100">Bản đồ Phân hệ & Tác nhân Actors</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-0', 'SportBooking_Overview')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition flex items-center gap-1">
+                <i class="fa-solid fa-download"></i> SVG
+              </button>
+              <button onclick="downloadPng('card-0', 'SportBooking_Overview')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition flex items-center gap-1">
+                <i class="fa-solid fa-image"></i> Tải PNG
+              </button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    subgraph Users["Các Tác nhân (Actors)"]
+        Customer(["👤 Khách hàng (Customer)"])
+        Staff(["🧑‍💼 Nhân viên (Staff)"])
+        Manager(["👨‍💼 Quản lý (Manager)"])
+        Admin(["👑 Quản trị viên (Admin)"])
+    end
+
+    subgraph System["Hệ Thống SportBooking"]
+        direction TB
+        subgraph F_Cust["Phân hệ Khách hàng"]
+            UC_Search["Tìm kiếm & Xem sân"]
+            UC_Book["Đặt sân chống trùng lịch"]
+            UC_MyBook["Xem vé QR & Hủy đặt"]
+            UC_Review["Đánh giá sân (Review)"]
+        end
+
+        subgraph F_Staff["Phân hệ Nhân viên"]
+            UC_ViewShift["Xem lịch ca phân công"]
+            UC_CheckIn["Chấm công Vào / Ra"]
+            UC_QrCheck["Quét mã QR sân"]
+            UC_Leave["Xin nghỉ phép"]
+        end
+
+        subgraph F_Manage["Phân hệ Vận hành Manager"]
+            UC_Assign["Phân ca làm việc"]
+            UC_ApproveLeave["Duyệt đơn nghỉ phép"]
+            UC_MonitorAtt["Giám sát chấm công"]
+            UC_TrackBook["Theo dõi booking"]
+        end
+
+        subgraph F_Admin["Phân hệ Quản trị Admin"]
+            UC_UserMgmt["Quản lý Tài khoản & Nhân sự"]
+            UC_CourtMgmt["Quản lý Sân & Tiện ích"]
+            UC_AuditLog["Hiệu chỉnh Chấm công & Audit Log"]
+            UC_Payroll["Tính & Duyệt bảng lương"]
+            UC_Reports["Báo cáo KPI & Recharts"]
+        end
+    end
+
+    Customer --> UC_Search & UC_Book & UC_MyBook & UC_Review
+    Staff --> UC_ViewShift & UC_CheckIn & UC_QrCheck & UC_Leave
+    Manager --> UC_Assign & UC_ApproveLeave & UC_MonitorAtt & UC_TrackBook
+    Admin --> UC_UserMgmt & UC_CourtMgmt & UC_AuditLog & UC_Payroll & UC_Reports
+    Manager -.-> UC_ViewShift
+    Admin -.-> UC_Assign
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 1: XÁC THỰC & PHÂN QUYỀN -->
+      <section id="module-1" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            🔐 Chức Năng 1: Xác Thực & Phân Quyền (Auth & RBAC)
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Quản lý phiên làm việc JWT, bảo mật mật khẩu bcrypt, phân quyền 4 Roles.</p>
+        </div>
+
+        <!-- 1.1 Use Case -->
+        <div id="card-1-1" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">USE CASE</span>
+              <h3 class="font-bold text-slate-100">1.1. Biểu đồ Use Case - Xác thực & Phân quyền</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-1-1', '1_1_UseCase_Auth')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-1-1', '1_1_UseCase_Auth')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart LR
+    Customer(("Khách hàng"))
+    Staff(("Nhân viên"))
+    Manager(("Quản lý"))
+    Admin(("Quản trị viên"))
+
+    subgraph AuthSystem["Hệ Thống Xác Thực & Phân Quyền (Auth Module)"]
+        UC01(["(UC-01) Đăng ký tài khoản mới"])
+        UC02(["(UC-02) Đăng nhập hệ thống"])
+        UC03(["(UC-03) Xem thông tin cá nhân (Profile)"])
+        UC04(["(UC-04) Cập nhật hồ sơ"])
+        UC05(["(UC-05) Đổi mật khẩu"])
+        UC06(["(UC-06) Đăng xuất (Logout)"])
+        UC07(["(UC-07) Cấp tài khoản nhân viên & Mật khẩu tạm"])
+        UC08(["(UC-08) Khóa / Mở khóa tài khoản"])
+    end
+
+    Customer --> UC01 & UC02 & UC03 & UC04 & UC05 & UC06
+    Staff --> UC02 & UC03 & UC04 & UC05 & UC06
+    Manager --> UC02 & UC03 & UC04 & UC05 & UC06
+    Admin --> UC02 & UC03 & UC04 & UC05 & UC06 & UC07 & UC08
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.2 Activity -->
+        <div id="card-1-2" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-md text-xs font-semibold">ACTIVITY</span>
+              <h3 class="font-bold text-slate-100">1.2. Biểu đồ Hoạt động - Đăng nhập & Điều hướng Phân quyền</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-1-2', '1_2_Activity_Auth')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-1-2', '1_2_Activity_Auth')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    Start((● Bắt đầu)) --> Input["Người dùng nhập Email và Mật khẩu"]
+    Input --> ValidateFormat{"Định dạng email & mật khẩu hợp lệ?"}
+
+    ValidateFormat -- "Không" --> ShowErrFormat["Hiển thị lỗi kiểm tra dữ liệu đầu vào (422)"]
+    ShowErrFormat --> Input
+
+    ValidateFormat -- "Có" --> QueryUser["Truy vấn User trong MongoDB theo email"]
+    QueryUser --> CheckExist{"User có tồn tại?"}
+
+    CheckExist -- "Không" --> ErrNotFound["Báo lỗi: Email hoặc mật khẩu không chính xác (401)"]
+    ErrNotFound --> FinishEnd(((◉ Kết thúc)))
+
+    CheckExist -- "Có" --> CheckStatus{"Tài khoản isActive = true?"}
+    CheckStatus -- "Không" --> ErrLocked["Báo lỗi: Tài khoản đã bị tạm khóa (403)"]
+    ErrLocked --> FinishEnd
+
+    CheckStatus -- "Có" --> ComparePass["So sánh mật khẩu với bcrypt.compare()"]
+    ComparePass --> CheckPass{"Mật khẩu trùng khớp?"}
+
+    CheckPass -- "Không" --> ErrWrongPass["Báo lỗi: Email hoặc mật khẩu không chính xác (401)"]
+    ErrWrongPass --> FinishEnd
+
+    CheckPass -- "Có" --> SignJWT["Khởi tạo JWT Token (chứa userId, email, role, expiresIn: 7d)"]
+    SignJWT --> ReturnClient["Trả về Token và thông tin User cho Frontend"]
+    ReturnClient --> SaveStorage["Frontend lưu Token vào localStorage"]
+    SaveStorage --> CheckRole{"Kiểm tra Role người dùng"}
+
+    CheckRole -- "customer" --> RouteCust["Chuyển hướng đến Trang chủ /"]
+    CheckRole -- "staff" --> RouteStaff["Chuyển hướng đến Dashboard Nhân viên /staff"]
+    CheckRole -- "manager" --> RouteManager["Chuyển hướng đến Dashboard Quản lý /manager"]
+    CheckRole -- "admin" --> RouteAdmin["Chuyển hướng đến Dashboard Quản trị /admin"]
+
+    RouteCust --> FinishEnd
+    RouteStaff --> FinishEnd
+    RouteManager --> FinishEnd
+    RouteAdmin --> FinishEnd
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.3 Sequence -->
+        <div id="card-1-3" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-md text-xs font-semibold">SEQUENCE</span>
+              <h3 class="font-bold text-slate-100">1.3. Biểu đồ Tuần tự - Đăng nhập & Xác thực API</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-1-3', '1_3_Sequence_Auth')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-1-3', '1_3_Sequence_Auth')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor User as Người dùng
+    participant UI as Frontend (React / LoginPage)
+    participant AuthCtrl as AuthController
+    participant AuthSvc as AuthService
+    participant UserM as User Model (Mongoose)
+    participant DB as MongoDB
+
+    User->>UI: Nhập email, password & bấm "Đăng nhập"
+    UI->>AuthCtrl: POST /api/auth/login { email, password }
+    AuthCtrl->>AuthSvc: login(email, password)
+    AuthSvc->>UserM: findOne({ email }).select('+password')
+    UserM->>DB: Truy vấn collection `users`
+    DB-->>UserM: Trả về document user
+    UserM-->>AuthSvc: User Object
+
+    alt Không tìm thấy User hoặc isActive == false
+        AuthSvc-->>AuthCtrl: Ném Exception ("Tài khoản không hợp lệ")
+        AuthCtrl-->>UI: 401 Unauthorized / 403 Forbidden
+        UI-->>User: Hiển thị Toast thông báo lỗi
+    else Tìm thấy User
+        AuthSvc->>AuthSvc: bcrypt.compare(password, user.password)
+        alt Mật khẩu sai
+            AuthSvc-->>AuthCtrl: Ném Exception ("Mật khẩu không đúng")
+            AuthCtrl-->>UI: 401 Unauthorized
+            UI-->>User: Hiển thị Toast: Sai mật khẩu
+        else Mật khẩu đúng
+            AuthSvc->>AuthSvc: jwt.sign({ userId, role, email }, SECRET)
+            AuthSvc-->>AuthCtrl: Trả về { user, token }
+            AuthCtrl-->>UI: 200 OK { success: true, data: { user, token } }
+            UI->>UI: Lưu token vào localStorage & cập nhật AuthContext
+            UI-->>User: Điều hướng tới Dashboard theo Role
+        end
+    end
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.4 Class -->
+        <div id="card-1-4" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-md text-xs font-semibold">CLASS DIAGRAM</span>
+              <h3 class="font-bold text-slate-100">1.4. Biểu đồ Lớp - Phân hệ Xác thực & Phân quyền</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-1-4', '1_4_Class_Auth')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-1-4', '1_4_Class_Auth')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+classDiagram
+    class User {
+        +ObjectId _id
+        +String email
+        +String password
+        +String fullName
+        +String phone
+        +String avatar
+        +UserRole role
+        +Boolean isActive
+        +Boolean mustChangePassword
+        +Date createdAt
+        +Date updatedAt
+        +comparePassword(candidatePassword) Promise~Boolean~
+    }
+
+    class UserRole {
+        <<enumeration>>
+        ADMIN
+        MANAGER
+        STAFF
+        CUSTOMER
+    }
+
+    class TokenPayload {
+        +String userId
+        +UserRole role
+        +String email
+    }
+
+    class AuthService {
+        +registerCustomer(data) Promise~Object~
+        +login(email, password) Promise~Object~
+        +getCurrentUser(userId) Promise~User~
+        +updateProfile(userId, data) Promise~User~
+        +changePassword(userId, oldPass, newPass) Promise~Object~
+    }
+
+    class AuthController {
+        +register(req, res) Promise
+        +login(req, res) Promise
+        +getMe(req, res) Promise
+        +updateProfile(req, res) Promise
+        +changePassword(req, res) Promise
+        +logout(req, res) Promise
+    }
+
+    class AuthMiddleware {
+        +authenticate(req, res, next) Promise
+        +authorize(...allowedRoles) Function
+    }
+
+    User --> UserRole
+    AuthService ..> User : Sử dụng
+    AuthService ..> TokenPayload : Sinh ra
+    AuthController ..> AuthService : Gọi nghiệp vụ
+    AuthMiddleware ..> User : Kiểm tra phiên & Role
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: SÂN & ĐẶT SÂN -->
+      <section id="module-2" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            ⚽ Chức Năng 2: Tìm Kiếm, Đặt Sân & Chống Trùng Lịch
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Thuật toán kiểm tra giao thoa thời gian, tạo mã booking và quản lý trạng thái đơn.</p>
+        </div>
+
+        <!-- 2.1 Use Case -->
+        <div id="card-2-1" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">USE CASE</span>
+              <h3 class="font-bold text-slate-100">2.1. Biểu đồ Use Case - Quản lý Sân & Đặt sân</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-2-1', '2_1_UseCase_Booking')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-2-1', '2_1_UseCase_Booking')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart LR
+    Customer(("Khách hàng"))
+    Manager(("Quản lý"))
+    Admin(("Quản trị viên"))
+
+    subgraph CourtAndBooking["Hệ Thống Đặt Sân & Quản Lý Sân (Booking Module)"]
+        UC10(["(UC-10) Tìm kiếm & lọc sân (môn, giá, vị trí)"])
+        UC11(["(UC-11) Xem chi tiết sân & thư viện ảnh"])
+        UC12(["(UC-12) Xem lịch slot đã bận theo ngày"])
+        UC13(["(UC-13) Đặt sân trực tuyến & tính giá tự động"])
+        UC14(["(UC-14) Xem vé điện tử QR Code"])
+        UC15(["(UC-15) Hủy đơn đặt sân (Hoàn tiền mô phỏng)"])
+        UC16(["(UC-16) Đánh giá & chấm điểm sân (Review)"])
+        UC17(["(UC-17) Quản lý sân (Thêm, Sửa, Đổi bảo trì, Xóa)"])
+        UC18(["(UC-18) Quản lý toàn bộ Booking hệ thống"])
+    end
+
+    Customer --> UC10 & UC11 & UC12 & UC13 & UC14 & UC15 & UC16
+    Manager --> UC17 & UC18
+    Admin --> UC17 & UC18
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.2 Activity -->
+        <div id="card-2-2" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-md text-xs font-semibold">ACTIVITY</span>
+              <h3 class="font-bold text-slate-100">2.2. Biểu đồ Hoạt động - Đặt Sân Chống Trùng Lịch</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-2-2', '2_2_Activity_Booking')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-2-2', '2_2_Activity_Booking')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    Start((● Bắt đầu)) --> SelectCourt["Khách hàng chọn Sân, Ngày chơi & Khung giờ"]
+    SelectCourt --> CheckAuth{"Khách hàng đã đăng nhập?"}
+
+    CheckAuth -- "Chưa" --> ReqLogin["Chuyển hướng trang Đăng nhập /login"]
+    ReqLogin --> SelectCourt
+
+    CheckAuth -- "Đã đăng nhập" --> SubmitBooking["Gửi yêu cầu POST /api/bookings"]
+    SubmitBooking --> CheckCourtStatus{"Sân có tồn tại & status == 'active'?"}
+
+    CheckCourtStatus -- "Không" --> ErrCourtInactive["Báo lỗi: Sân không hoạt động hoặc đang bảo trì (400)"]
+    ErrCourtInactive --> EndFail(((◉ Kết thúc)))
+
+    CheckCourtStatus -- "Có" --> CheckOperatingHours{"Khung giờ nằm trong openingTime & closingTime?"}
+    CheckOperatingHours -- "Không" --> ErrHours["Báo lỗi: Ngoài giờ mở cửa của sân (400)"]
+    ErrHours --> EndFail
+
+    CheckOperatingHours -- "Có" --> CheckPastDate{"Ngày đặt >= Ngày hiện tại?"}
+    CheckPastDate -- "Không" --> ErrPast["Báo lỗi: Không được đặt ngày trong quá khứ (400)"]
+    ErrPast --> EndFail
+
+    CheckPastDate -- "Có" --> QueryExisting["Backend tìm các booking cùng sân & ngày có status != 'cancelled'"]
+    QueryExisting --> LoopCheck["Lặp qua từng booking, kiểm tra giao thoa:<br/>max(newStart, existStart) < min(newEnd, existEnd)"]
+
+    LoopCheck --> ConflictFound{"Phát hiện trùng lịch?"}
+    ConflictFound -- "Có (Bị trùng)" --> ReturnConflict["Trả về 409 Conflict: Khung giờ đã có khách hàng đặt trước!"]
+    ReturnConflict --> EndFail
+
+    ConflictFound -- "Không (Trống)" --> CalcPrice["Tính totalHours & totalPrice"]
+    CalcPrice --> GenCode["Tạo mã Booking: BK-YYYYMMDD-XXXX"]
+    GenCode --> SaveDB["Tạo Booking: status='confirmed', paymentStatus='paid'"]
+    SaveDB --> SuccessRes["Trả về 201 Created kèm vé điện tử"]
+    SuccessRes --> ShowUI["Frontend hiển thị Toast thành công & điều hướng /my-bookings"]
+    ShowUI --> EndSuccess(((◉ Thành công)))
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.3 Sequence -->
+        <div id="card-2-3" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-md text-xs font-semibold">SEQUENCE</span>
+              <h3 class="font-bold text-slate-100">2.3. Biểu đồ Tuần tự - Kiểm Tra Trùng Lịch & Tạo Đơn</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-2-3', '2_3_Sequence_Booking')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-2-3', '2_3_Sequence_Booking')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Customer as Khách hàng
+    participant View as React (CourtDetailPage)
+    participant BookingCtrl as BookingController
+    participant BookingSvc as BookingService
+    participant CourtM as Court Model
+    participant BookingM as Booking Model
+    participant DB as MongoDB
+
+    Customer->>View: Chọn ngày "2026-10-15", slot "08:00 - 10:00", bấm "Đặt sân"
+    View->>BookingCtrl: POST /api/bookings { courtId, date, startTime, endTime }
+    Note over BookingCtrl: Authenticate Middleware kiểm tra JWT Token
+    BookingCtrl->>BookingSvc: createBooking(userId, bookingData)
+
+    BookingSvc->>CourtM: findById(courtId)
+    CourtM->>DB: Truy vấn sân
+    DB-->>CourtM: Document Court
+    CourtM-->>BookingSvc: courtInfo
+
+    BookingSvc->>BookingSvc: Kiểm tra giờ mở cửa court.openingTime / court.closingTime
+
+    BookingSvc->>BookingM: find({ court: courtId, date, status: { $in: ['pending', 'confirmed', 'completed'] } })
+    BookingM->>DB: Quét index { court: 1, date: 1, status: 1 }
+    DB-->>BookingM: existingBookings[]
+    BookingM-->>BookingSvc: existingBookings[]
+
+    BookingSvc->>BookingSvc: checkConflict: max(newStart, sStart) < min(newEnd, sEnd)
+
+    alt Phát hiện trùng lịch
+        BookingSvc-->>BookingCtrl: Ném lỗi Conflict (409)
+        BookingCtrl-->>View: HTTP 409 Conflict
+        View-->>Customer: Popup cảnh báo khung giờ đã có người đặt
+    else Hợp lệ (Trống lịch)
+        BookingSvc->>BookingSvc: Tính totalPrice & sinh mã BK-20261015-XXXX
+        BookingSvc->>BookingM: create(bookingPayload)
+        BookingM->>DB: Ghi collection `bookings`
+        DB-->>BookingM: Saved Document
+        BookingM-->>BookingSvc: newBookingDoc
+        BookingSvc-->>BookingCtrl: Booking details
+        BookingCtrl-->>View: HTTP 201 Created
+        View-->>Customer: Toast thành công & điều hướng vé điện tử
+    end
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.4 Class -->
+        <div id="card-2-4" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-md text-xs font-semibold">CLASS DIAGRAM</span>
+              <h3 class="font-bold text-slate-100">2.4. Biểu đồ Lớp - Phân hệ Quản lý Sân & Booking</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-2-4', '2_4_Class_Booking')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-2-4', '2_4_Class_Booking')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+classDiagram
+    class Court {
+        +ObjectId _id
+        +String name
+        +CourtType type
+        +String description
+        +String address
+        +Location location
+        +String[] images
+        +Number pricePerHour
+        +String[] amenities
+        +String openingTime
+        +String closingTime
+        +CourtStatus status
+        +Number ratingAvg
+        +Number totalReviews
+    }
+
+    class Booking {
+        +ObjectId _id
+        +String bookingCode
+        +ObjectId user
+        +ObjectId court
+        +String date
+        +String startTime
+        +String endTime
+        +Number totalHours
+        +Number pricePerHour
+        +Number totalPrice
+        +BookingStatus status
+        +PaymentStatus paymentStatus
+        +PaymentMethod paymentMethod
+        +String notes
+        +String cancelReason
+    }
+
+    class Review {
+        +ObjectId _id
+        +ObjectId user
+        +ObjectId court
+        +ObjectId booking
+        +Number rating
+        +String comment
+        +Date createdAt
+    }
+
+    class BookingService {
+        +checkConflict(courtId, date, startTime, endTime) Promise~Object~
+        +createBooking(userId, data) Promise~Booking~
+        +getCourtOccupiedSlots(courtId, date) Promise~Booking[]~
+        +getMyBookings(userId, status) Promise~Booking[]~
+        +cancelBooking(bookingId, userId, userRole, reason) Promise~Booking~
+    }
+
+    Court "1" <-- "*" Booking : đặt trên
+    User "1" <-- "*" Booking : tạo bởi
+    Booking "1" <-- "0..1" Review : đánh giá
+    Court "1" <-- "*" Review : nhận đánh giá
+    BookingService ..> Booking : Chống trùng & Tạo đơn
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: CA LÀM & CHẤM CÔNG QR, AUDIT LOG -->
+      <section id="module-3" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            📅 Chức Năng 3: Ca Làm, Phân Ca & Chấm Công QR / Audit Log
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Hệ thống tính giờ công tự động, kiểm tra grace period đi muộn, mã QR động và lưu vết thay đổi.</p>
+        </div>
+
+        <!-- 3.1 Use Case -->
+        <div id="card-3-1" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">USE CASE</span>
+              <h3 class="font-bold text-slate-100">3.1. Biểu đồ Use Case - Ca làm & Chấm công QR</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-3-1', '3_1_UseCase_Attendance')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-3-1', '3_1_UseCase_Attendance')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart LR
+    Staff(("Nhân viên (Staff)"))
+    Manager(("Quản lý (Manager)"))
+    Admin(("Quản trị viên (Admin)"))
+
+    subgraph AttendanceSystem["Hệ Thống Chấm Công & Phân Ca (Attendance Module)"]
+        UC20(["(UC-20) Xem ca làm việc cá nhân"])
+        UC21(["(UC-21) Chấm công vào (Check-in)"])
+        UC22(["(UC-22) Chấm công ra (Check-out & Tính giờ làm)"])
+        UC23(["(UC-23) Chấm công bằng mã QR động"])
+        UC24(["(UC-24) Xem lịch sử chấm công cá nhân"])
+        UC25(["(UC-25) Quản lý danh mục Ca làm (Shifts)"])
+        UC26(["(UC-26) Phân ca làm việc (Work Schedule)"])
+        UC27(["(UC-27) Hiệu chỉnh chấm công nhân viên"])
+        UC28(["(UC-28) Xem Audit Log lưu vết can thiệp"])
+        UC29(["(UC-29) Tạo mã QR Code động cho từng sân"])
+    end
+
+    Staff --> UC20 & UC21 & UC22 & UC23 & UC24
+    Manager --> UC25 & UC26 & UC27 & UC28 & UC29
+    Admin --> UC25 & UC26 & UC27 & UC28 & UC29
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.2 Activity -->
+        <div id="card-3-2" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-md text-xs font-semibold">ACTIVITY</span>
+              <h3 class="font-bold text-slate-100">3.2. Biểu đồ Hoạt động - Check-in / Check-out & Tính Giờ Làm</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-3-2', '3_2_Activity_Attendance')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-3-2', '3_2_Activity_Attendance')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    Start((● Bắt đầu)) --> ActionType{"Nhân viên chọn hành động?"}
+
+    %% CHECK-IN
+    ActionType -- "Check-in (Vào ca)" --> GetTodayShift["Lấy lịch phân ca trong ngày"]
+    GetTodayShift --> HasShift{"Có ca làm được phân?"}
+    HasShift -- "Không" --> ErrNoShift["Báo lỗi: Bạn không có lịch trực hôm nay"]
+    ErrNoShift --> EndFail(((◉ Kết thúc)))
+
+    HasShift -- "Có" --> CheckAlreadyIn{"Đã check-in ca này chưa?"}
+    CheckAlreadyIn -- "Đã check-in" --> ErrDoubleIn["Báo lỗi: Đã check-in ca này rồi!"]
+    ErrDoubleIn --> EndFail
+
+    CheckAlreadyIn -- "Chưa" --> CheckQR{"Có quét mã QR?"}
+    CheckQR -- "Có" --> ValidateQR{"QR Token hợp lệ & chưa hết hạn?"}
+    ValidateQR -- "Không" --> ErrQR["Báo lỗi: Mã QR hết hạn / không hợp lệ"]
+    ErrQR --> EndFail
+    ValidateQR -- "Hợp lệ" --> SetQRValid["qrVerified = true"]
+    CheckQR -- "Thủ công" --> SetQRFalse["qrVerified = false"]
+
+    SetQRValid --> CompareGrace["So sánh giờ với shift.startTime + shift.gracePeriod"]
+    SetQRFalse --> CompareGrace
+
+    CompareGrace --> IsLate{"Giờ vào > startTime + gracePeriod?"}
+    IsLate -- "Có" --> StatusLate["status = 'late' (Đi muộn)"]
+    IsLate -- "Không" --> StatusPresent["status = 'present' (Đúng giờ)"]
+
+    StatusLate --> SaveAttIn["Lưu Attendance: checkIn = now()"]
+    StatusPresent --> SaveAttIn
+    SaveAttIn --> SaveLogIn["Ghi Audit Log: action='check_in'"]
+    SaveLogIn --> EndSuccessIn(((◉ Check-in thành công)))
+
+    %% CHECK-OUT
+    ActionType -- "Check-out (Tan ca)" --> FindAttRecord["Tìm Attendance của ca hôm nay"]
+    FindAttRecord --> CheckedInYet{"Đã check-in chưa?"}
+    CheckedInYet -- "Chưa" --> ErrNoIn["Báo lỗi: Bạn chưa check-in!"]
+    ErrNoIn --> EndFail
+
+    CheckedInYet -- "Đã check-in" --> AlreadyOut{"Đã check-out chưa?"}
+    AlreadyOut -- "Đã check-out rồi" --> ErrDoubleOut["Báo lỗi: Bạn đã check-out rồi!"]
+    ErrDoubleOut --> EndFail
+
+    AlreadyOut -- "Chưa check-out" --> CalcWorkTime["Tính chênh lệch thời gian:<br/>rawMinutes = (checkOut - checkIn) / 60000"]
+    CalcWorkTime --> DeductBreak["Trừ thời gian nghỉ giữa ca (nếu có)"]
+    DeductBreak --> CalcFinalHours["workHours = round(netMinutes / 60, 2)"]
+    CalcFinalHours --> SaveAttOut["Cập nhật Attendance: checkOut = now(), workHours"]
+    SaveAttOut --> SaveLogOut["Ghi Audit Log: action='check_out'"]
+    SaveLogOut --> EndSuccessOut(((◉ Hoàn thành ca làm)))
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.3 Sequence -->
+        <div id="card-3-3" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-md text-xs font-semibold">SEQUENCE</span>
+              <h3 class="font-bold text-slate-100">3.3. Biểu đồ Tuần tự - Quét QR & Ghi Vết Audit Log</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-3-3', '3_3_Sequence_Attendance')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-3-3', '3_3_Sequence_Attendance')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Staff as Nhân viên (Staff)
+    actor Admin as Quản lý / Admin
+    participant UI as Frontend React
+    participant AttCtrl as AttendanceController
+    participant AttSvc as AttendanceService
+    participant QrM as QrToken Model
+    participant AttM as Attendance Model
+    participant LogM as AttendanceLog Model
+    participant DB as MongoDB
+
+    %% Tạo QR
+    Admin->>UI: Bấm "Tạo mã QR sân" (Hạn 120 phút)
+    UI->>AttCtrl: POST /api/attendance/generate-qr { courtId, expiresInMinutes: 120 }
+    AttCtrl->>AttSvc: generateQrCode(courtId, 120)
+    AttSvc->>QrM: create({ court, code: UUID, expiresAt })
+    QrM->>DB: Lưu token QR
+    AttSvc->>AttSvc: QRCode.toDataURL(data)
+    AttSvc-->>AttCtrl: Trả về QR Data URL
+    AttCtrl-->>UI: Hiển thị mã QR lên giao diện
+
+    %% Quét QR
+    Staff->>UI: Quét mã QR tại sân
+    UI->>AttCtrl: POST /api/attendance/check-in { workScheduleId, qrToken }
+    AttCtrl->>AttSvc: checkIn(userId, data)
+    AttSvc->>QrM: findOne({ code: qrToken, isActive: true, expiresAt: { $gt: now } })
+    QrM->>DB: Kiểm tra tính hợp lệ
+    DB-->>QrM: Token Document hợp lệ
+    AttSvc->>AttM: findOne({ employee, workSchedule })
+    alt Đã check-in
+        AttSvc-->>AttCtrl: Lỗi "Bạn đã check-in rồi"
+        AttCtrl-->>UI: 400 Bad Request
+    else Chưa check-in
+        AttSvc->>AttSvc: Xác định status (late / present theo gracePeriod)
+        AttSvc->>AttM: create({ employee, workSchedule, checkIn: now, status, qrVerified: true })
+        AttM->>DB: Ghi bản ghi `attendances`
+        AttSvc->>LogM: create({ attendance, action: 'check_in', performedBy: userId, reason: 'QR Scan' })
+        LogM->>DB: Ghi log kiểm toán `attendance_logs`
+        AttSvc-->>AttCtrl: Attendance details
+        AttCtrl-->>UI: 201 Created
+        UI-->>Staff: Báo check-in thành công
+    end
+
+    %% Hiệu chỉnh Audit Log
+    Admin->>UI: Sửa giờ ra & nhập lý do bắt buộc
+    UI->>AttCtrl: PUT /api/attendance/:id { checkOut, reason: 'Quên bấm' }
+    AttCtrl->>AttSvc: adminUpdateAttendance(id, adminId, data)
+    AttSvc->>AttM: Cập nhật & tính lại workHours
+    AttM->>DB: Lưu Attendance
+    AttSvc->>LogM: create({ attendance: id, action: 'admin_override', oldValue, newValue, performedBy: adminId, reason })
+    LogM->>DB: Lưu vết Audit Log bắt buộc
+    AttSvc-->>AttCtrl: Updated Attendance
+    AttCtrl-->>UI: 200 OK
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.4 Class -->
+        <div id="card-3-4" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-md text-xs font-semibold">CLASS DIAGRAM</span>
+              <h3 class="font-bold text-slate-100">3.4. Biểu đồ Lớp - Phân hệ Ca làm, Chấm công & Audit Log</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-3-4', '3_4_Class_Attendance')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-3-4', '3_4_Class_Attendance')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+classDiagram
+    class Shift {
+        +ObjectId _id
+        +String name
+        +String startTime
+        +String endTime
+        +String breakStart
+        +String breakEnd
+        +Number gracePeriod
+        +ShiftStatus status
+    }
+
+    class WorkSchedule {
+        +ObjectId _id
+        +ObjectId employee
+        +ObjectId shift
+        +ObjectId court
+        +String date
+        +ScheduleStatus status
+        +String note
+        +ObjectId createdBy
+    }
+
+    class Attendance {
+        +ObjectId _id
+        +ObjectId employee
+        +ObjectId workSchedule
+        +String date
+        +Date checkIn
+        +Date checkOut
+        +Number workHours
+        +AttendanceStatus status
+        +String note
+        +Boolean qrVerified
+    }
+
+    class AttendanceLog {
+        +ObjectId _id
+        +ObjectId attendance
+        +AttendanceAuditAction action
+        +Object oldValue
+        +Object newValue
+        +ObjectId performedBy
+        +String reason
+        +Date createdAt
+    }
+
+    class QrToken {
+        +ObjectId _id
+        +ObjectId court
+        +String code
+        +Date expiresAt
+        +Boolean isActive
+    }
+
+    Shift "1" <-- "*" WorkSchedule : phân theo ca
+    Employee "1" <-- "*" WorkSchedule : được phân
+    WorkSchedule "1" <-- "1" Attendance : ghi nhận công
+    Attendance "1" <-- "*" AttendanceLog : lưu vết kiểm toán
+    Court "1" <-- "*" QrToken : gắn với sân
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: NGHỈ PHÉP & PHÊ DUYỆT -->
+      <section id="module-4" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            📝 Chức Năng 4: Quy Trình Đơn Xin Nghỉ Phép & Phê Duyệt
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Gửi đơn xin nghỉ, kiểm tra trùng lặp ngày, quản lý duyệt/từ chối kèm lý do phản hồi.</p>
+        </div>
+
+        <!-- 4.1 Use Case -->
+        <div id="card-4-1" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">USE CASE</span>
+              <h3 class="font-bold text-slate-100">4.1. Biểu đồ Use Case - Quản lý Nghỉ phép</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-4-1', '4_1_UseCase_Leave')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-4-1', '4_1_UseCase_Leave')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart LR
+    Staff(("Nhân viên (Staff)"))
+    Manager(("Quản lý (Manager)"))
+    Admin(("Quản trị viên (Admin)"))
+
+    subgraph LeaveWorkflow["Quy Trình Quản Lý Nghỉ Phép (Leave Module)"]
+        UC30(["(UC-30) Tạo đơn xin nghỉ phép mới"])
+        UC31(["(UC-31) Xem danh sách đơn nghỉ cá nhân"])
+        UC32(["(UC-32) Hủy đơn nghỉ đang chờ duyệt"])
+        UC33(["(UC-33) Xem danh sách đơn nghỉ toàn bộ nhân viên"])
+        UC34(["(UC-34) Phê duyệt đơn nghỉ phép (Approve)"])
+        UC35(["(UC-35) Từ chối đơn nghỉ phép kèm lý do (Reject)"])
+    end
+
+    Staff --> UC30 & UC31 & UC32
+    Manager --> UC33 & UC34 & UC35
+    Admin --> UC33 & UC34 & UC35
+            </div>
+          </div>
+        </div>
+
+        <!-- 4.2 Activity -->
+        <div id="card-4-2" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-md text-xs font-semibold">ACTIVITY</span>
+              <h3 class="font-bold text-slate-100">4.2. Biểu đồ Hoạt động - Vòng Đời Đơn Xin Nghỉ Phép</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-4-2', '4_2_Activity_Leave')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-4-2', '4_2_Activity_Leave')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    Start((● Bắt đầu)) --> StaffFill["Nhân viên điền: Loại nghỉ, Ngày bắt đầu, Ngày kết thúc, Lý do"]
+    StaffFill --> CheckDate{"startDate <= endDate?"}
+    CheckDate -- "Không hợp lệ" --> ErrDate["Báo lỗi: Ngày bắt đầu phải trước ngày kết thúc"]
+    ErrDate --> StaffFill
+
+    CheckDate -- "Hợp lệ" --> CheckOverlap{"Có đơn khác đã duyệt hoặc chờ duyệt trùng khoảng?"}
+    CheckOverlap -- "Có trùng" --> ErrOverlap["Báo lỗi: Đã có đơn xin nghỉ trong khoảng thời gian này!"]
+    ErrOverlap --> EndFail(((◉ Kết thúc)))
+
+    CheckOverlap -- "Không trùng" --> CreatePending["Tạo đơn mới với status = 'pending'"]
+    CreatePending --> DisplayList["Hiển thị trên giao diện Nhân viên & Hàng chờ Quản lý"]
+
+    DisplayList --> DecisionBranch{"Hành động tiếp theo?"}
+
+    DecisionBranch -- "Nhân viên tự hủy" --> CheckCancelStatus{"Đơn vẫn đang 'pending'?"}
+    CheckCancelStatus -- "Không" --> ErrCantCancel["Không thể hủy đơn đã xử lý"]
+    CheckCancelStatus -- "Đúng" --> SetCancelled["status = 'cancelled'"]
+    SetCancelled --> EndFinish(((◉ Hoàn thành)))
+
+    DecisionBranch -- "Quản lý xem xét" --> ManagerReview{"Quản lý quyết định"}
+    ManagerReview -- "Đồng ý" --> ApproveAction["status = 'approved', approvedBy, approvedAt, responseNote"]
+    ApproveAction --> UpdateCalendar["Cập nhật thống kê chuyên cần tháng"]
+    UpdateCalendar --> EndFinish
+
+    ManagerReview -- "Từ chối" --> RejectAction["status = 'rejected', responseNote ghi rõ lý do"]
+    RejectAction --> EndFinish
+            </div>
+          </div>
+        </div>
+
+        <!-- 4.3 Sequence -->
+        <div id="card-4-3" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-md text-xs font-semibold">SEQUENCE</span>
+              <h3 class="font-bold text-slate-100">4.3. Biểu đồ Tuần tự - Gửi & Phê Duyệt Đơn Nghỉ Phép</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-4-3', '4_3_Sequence_Leave')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-4-3', '4_3_Sequence_Leave')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Staff as Nhân viên
+    actor Manager as Quản lý
+    participant UI as Frontend React
+    participant LeaveCtrl as LeaveController
+    participant LeaveSvc as LeaveService
+    participant LeaveM as LeaveRequest Model
+    participant DB as MongoDB
+
+    %% Gửi đơn
+    Staff->>UI: Điền đơn nghỉ: 2026-09-25 đến 2026-09-26, lý do: Việc gia đình
+    UI->>LeaveCtrl: POST /api/leave-requests { startDate, endDate, type, reason }
+    LeaveCtrl->>LeaveSvc: createLeaveRequest(userId, data)
+    LeaveSvc->>LeaveM: findOne({ employee, status: { $in: ['pending', 'approved'] }, overlap })
+    LeaveM->>DB: Kiểm tra trùng ngày
+    DB-->>LeaveM: Hợp lệ (Không trùng)
+    LeaveSvc->>LeaveM: create({ employee, startDate, endDate, type, reason, status: 'pending' })
+    LeaveM->>DB: Lưu đơn mới
+    LeaveSvc-->>LeaveCtrl: LeaveRequest Document
+    LeaveCtrl-->>UI: 201 Created
+    UI-->>Staff: Toast: Gửi đơn thành công!
+
+    %% Duyệt đơn
+    Manager->>UI: Vào tab "Đơn xin nghỉ phép cần duyệt"
+    UI->>LeaveCtrl: GET /api/leave-requests?status=pending
+    LeaveCtrl->>LeaveSvc: getAllLeaveRequests('pending')
+    LeaveSvc->>LeaveM: find({ status: 'pending' })
+    LeaveM->>DB: Truy vấn danh sách
+    DB-->>LeaveM: Pending Leaves List
+    LeaveM-->>LeaveSvc: Danh sách đơn
+    LeaveSvc-->>LeaveCtrl: Trả về dữ liệu
+    LeaveCtrl-->>UI: Hiển thị danh sách kèm nút Duyệt / Từ chối
+
+    Manager->>UI: Bấm "Duyệt đơn" (Approve)
+    UI->>LeaveCtrl: PUT /api/leave-requests/:id/approve { responseNote: "Đồng ý" }
+    LeaveCtrl->>LeaveSvc: processLeaveRequest(id, managerId, 'approved', note)
+    LeaveSvc->>LeaveM: findById(id)
+    LeaveSvc->>LeaveM: Cập nhật status = 'approved', approvedBy, approvedAt
+    LeaveM->>DB: Lưu thay đổi
+    LeaveSvc-->>LeaveCtrl: Updated Leave Document
+    LeaveCtrl-->>UI: 200 OK
+    UI-->>Manager: Toast thông báo duyệt thành công
+    UI-->>Staff: Trạng thái đơn đổi sang "Đã duyệt"
+            </div>
+          </div>
+        </div>
+
+        <!-- 4.4 Class -->
+        <div id="card-4-4" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-md text-xs font-semibold">CLASS DIAGRAM</span>
+              <h3 class="font-bold text-slate-100">4.4. Biểu đồ Lớp - Phân hệ Nghỉ Phép</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-4-4', '4_4_Class_Leave')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-4-4', '4_4_Class_Leave')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+classDiagram
+    class LeaveRequest {
+        +ObjectId _id
+        +ObjectId employee
+        +String startDate
+        +String endDate
+        +LeaveType type
+        +String reason
+        +LeaveStatus status
+        +ObjectId approvedBy
+        +Date approvedAt
+        +String responseNote
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class LeaveType {
+        <<enumeration>>
+        ANNUAL_LEAVE
+        SICK_LEAVE
+        PERSONAL_LEAVE
+        UNPAID_LEAVE
+        OTHER
+    }
+
+    class LeaveStatus {
+        <<enumeration>>
+        PENDING
+        APPROVED
+        REJECTED
+        CANCELLED
+    }
+
+    class LeaveService {
+        +createLeaveRequest(userId, data) Promise~LeaveRequest~
+        +getMyLeaveRequests(userId) Promise~LeaveRequest[]~
+        +getAllLeaveRequests(status) Promise~LeaveRequest[]~
+        +processLeaveRequest(id, reviewerId, action, note) Promise~LeaveRequest~
+        +cancelLeaveRequest(leaveId, userId) Promise~LeaveRequest~
+    }
+
+    LeaveRequest --> LeaveType
+    LeaveRequest --> LeaveStatus
+    LeaveService ..> LeaveRequest : Thực thi nghiệp vụ
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: BẢNG LƯƠNG & BÁO CÁO DASHBOARD -->
+      <section id="module-5" class="space-y-6">
+        <div class="border-b border-slate-800 pb-4">
+          <h2 class="text-2xl font-bold text-blue-400 flex items-center gap-3">
+            💰 Chức Năng 5: Bảng Lương & Báo Cáo Thống Kê Dashboard
+          </h2>
+          <p class="text-slate-400 text-sm mt-1">Công thức tính lương chuẩn 26 công, tổng hợp doanh thu 6 tháng, Recharts visualizations.</p>
+        </div>
+
+        <!-- 5.1 Use Case -->
+        <div id="card-5-1" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-md text-xs font-semibold">USE CASE</span>
+              <h3 class="font-bold text-slate-100">5.1. Biểu đồ Use Case - Bảng lương & Dashboard KPI</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-5-1', '5_1_UseCase_Payroll')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-5-1', '5_1_UseCase_Payroll')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart LR
+    Manager(("Quản lý (Manager)"))
+    Admin(("Quản trị viên (Admin)"))
+
+    subgraph PayrollAndReports["Bảng Lương & Báo Cáo Dashboard (Payroll & Analytics)"]
+        UC40(["(UC-40) Xem bảng lương theo kỳ (Tháng/Năm)"])
+        UC41(["(UC-41) Tính toán bảng lương tự động từ ngày công"])
+        UC42(["(UC-42) Cập nhật Phụ cấp, Tăng ca, Khấu trừ"])
+        UC43(["(UC-43) Phê duyệt chi trả lương (Status: Paid)"])
+        UC44(["(UC-44) Xem Dashboard chỉ số KPI"])
+        UC45(["(UC-45) Xem biểu đồ Recharts: Doanh thu 6 tháng"])
+        UC46(["(UC-46) Xem biểu đồ Recharts: Lượng booking"])
+        UC47(["(UC-47) Xem biểu đồ Recharts: Tỷ trọng môn thể thao"])
+        UC48(["(UC-48) Xem biểu đồ Recharts: Phân bổ phòng ban"])
+    end
+
+    Manager --> UC40 & UC44
+    Admin --> UC40 & UC41 & UC42 & UC43 & UC44 & UC45 & UC46 & UC47 & UC48
+            </div>
+          </div>
+        </div>
+
+        <!-- 5.2 Activity -->
+        <div id="card-5-2" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-600/30 text-amber-300 border border-amber-500/30 rounded-md text-xs font-semibold">ACTIVITY</span>
+              <h3 class="font-bold text-slate-100">5.2. Biểu đồ Hoạt động - Tính Lương Tự Động Từ Ngày Công</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-5-2', '5_2_Activity_Payroll')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-5-2', '5_2_Activity_Payroll')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+flowchart TD
+    Start((● Bắt đầu)) --> SelectMonth["Admin chọn Nhân viên, Tháng và Năm"]
+    SelectMonth --> FetchEmployee["Lấy thông tin nhân viên & mức lương cơ bản (baseSalary)"]
+    FetchEmployee --> QueryAttendances["Truy vấn `attendances` theo tháng: date LIKE 'YYYY-MM%'<br/>điều kiện: checkIn & checkOut != null"]
+
+    QueryAttendances --> CountDays["Đếm: totalWorkDays & totalWorkHours"]
+    CountDays --> CalcFormula["Áp dụng công thức 26 ngày công:<br/>workPay = round((baseSalary / 26) * totalWorkDays)"]
+
+    CalcFormula --> AddExtras["Cộng: allowance (phụ cấp) + overtimePay (tăng ca)"]
+    AddExtras --> SubDeductions["Trừ: deduction (khấu trừ)"]
+    SubDeductions --> FinalSalary["totalSalary = max(0, workPay + allowance + overtimePay - deduction)"]
+
+    FinalSalary --> UpsertPayroll["Lưu vào collection `payrolls` (status='draft')"]
+    UpsertPayroll --> DisplayResult["Hiển thị lên bảng lương"]
+    DisplayResult --> AdminReview{"Admin duyệt chi trả?"}
+
+    AdminReview -- "Chỉnh sửa" --> EditParams["Điều chỉnh thêm phụ cấp / khấu trừ"]
+    EditParams --> CalcFormula
+
+    AdminReview -- "Duyệt chi" --> SetPaid["Cập nhật status = 'paid'"]
+    SetPaid --> FinishEnd(((◉ Hoàn thành)))
+            </div>
+          </div>
+        </div>
+
+        <!-- 5.3 Sequence -->
+        <div id="card-5-3" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-md text-xs font-semibold">SEQUENCE</span>
+              <h3 class="font-bold text-slate-100">5.3. Biểu đồ Tuần tự - Tổng Hợp Báo Cáo Dashboard Recharts</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-5-3', '5_3_Sequence_Payroll')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-5-3', '5_3_Sequence_Payroll')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Admin as Quản trị viên
+    participant UI as Frontend (AdminDashboardPage)
+    participant ReportCtrl as ReportController
+    participant ReportSvc as ReportService
+    participant BookingM as Booking Model
+    participant AttM as Attendance Model
+    participant UserM as User Model
+    participant CourtM as Court Model
+    participant DB as MongoDB
+
+    Admin->>UI: Truy cập Bảng điều khiển /admin
+    UI->>ReportCtrl: GET /api/admin/reports/dashboard
+    ReportCtrl->>ReportSvc: getDashboardOverview()
+
+    par Lấy KPI tổng quan
+        ReportSvc->>UserM: countDocuments({ role: 'customer' })
+        ReportSvc->>CourtM: countDocuments()
+        ReportSvc->>BookingM: countDocuments()
+        ReportSvc->>AttM: find({ date: todayStr })
+    and Lấy dữ liệu doanh thu & booking
+        ReportSvc->>BookingM: find({ status: { $in: ['confirmed', 'completed'] } })
+        BookingM->>DB: Quét toàn bộ booking hợp lệ
+        DB-->>BookingM: Danh sách bookings
+    end
+
+    ReportSvc->>ReportSvc: Tính totalRevenue, thisMonthRevenue
+    ReportSvc->>ReportSvc: Tổng hợp doanh thu 6 tháng gần nhất
+    ReportSvc->>ReportSvc: Gom nhóm theo loại sân (football, tennis, badminton...)
+    ReportSvc->>ReportSvc: Gom nhóm nhân viên theo phòng ban
+
+    ReportSvc-->>ReportCtrl: Trả về { kpi, charts: { monthlyStats, bookingsByCourtType, employeesByDepartment } }
+    ReportCtrl-->>UI: 200 OK { success: true, data }
+
+    UI->>UI: Render 6 Thẻ KPI nổi bật
+    UI->>UI: Render Recharts AreaChart (Doanh thu)
+    UI->>UI: Render Recharts LineChart (Lượng booking)
+    UI->>UI: Render Recharts BarChart (Môn thể thao)
+    UI->>UI: Render Recharts PieChart (Nhân sự phòng ban)
+    UI-->>Admin: Hiển thị Dashboard tương tác trực quan
+            </div>
+          </div>
+        </div>
+
+        <!-- 5.4 Class -->
+        <div id="card-5-4" class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden p-5 shadow-xl">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-md text-xs font-semibold">CLASS DIAGRAM</span>
+              <h3 class="font-bold text-slate-100">5.4. Biểu đồ Lớp - Phân hệ Bảng Lương & Báo Cáo</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="downloadSvg('card-5-4', '5_4_Class_Payroll')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded transition">SVG</button>
+              <button onclick="downloadPng('card-5-4', '5_4_Class_Payroll')" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition">Tải PNG</button>
+            </div>
+          </div>
+          <div class="mermaid-container">
+            <div class="mermaid">
+classDiagram
+    class Payroll {
+        +ObjectId _id
+        +ObjectId employee
+        +Number month
+        +Number year
+        +Number baseSalary
+        +Number totalWorkDays
+        +Number totalWorkHours
+        +Number allowance
+        +Number overtimePay
+        +Number deduction
+        +Number totalSalary
+        +PayrollStatus status
+        +String notes
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class PayrollStatus {
+        <<enumeration>>
+        DRAFT
+        APPROVED
+        PAID
+    }
+
+    class PayrollService {
+        +calculateEmployeePayroll(data) Promise~Payroll~
+        +getAllPayrolls(query) Promise~Payroll[]~
+        +getPayrollById(id) Promise~Payroll~
+        +updatePayroll(id, data) Promise~Payroll~
+    }
+
+    class ReportService {
+        +getDashboardOverview() Promise~Object~
+    }
+
+    Payroll --> PayrollStatus
+    PayrollService ..> Payroll : Tính toán & Cập nhật
+    ReportService ..> Booking : Thống kê doanh thu
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+    <p>SportBooking Production System Architecture & Design Specification © 2026. All UML models are synchronized with TypeScript & Mongoose schemas.</p>
+  </footer>
+
+  <!-- SCRIPT INITIALIZATION & EXPORT HANDLERS -->
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+      sequence: { useMaxWidth: true, showSequenceNumbers: true },
+      themeVariables: {
+        fontSize: '13px',
+        primaryColor: '#e0f2fe',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#0284c7',
+        lineColor: '#64748b',
+        secondaryColor: '#f1f5f9',
+        tertiaryColor: '#ffffff'
+      }
+    });
+
+    function downloadSvg(cardId, fileName) {
+      const card = document.getElementById(cardId);
+      const svg = card.querySelector('svg');
+      if (!svg) {
+        alert('Biểu đồ đang hiển thị, vui lòng thử lại sau vài giây.');
+        return;
+      }
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (fileName || 'SportBooking_Diagram') + '.svg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadPng(cardId, fileName) {
+      const card = document.getElementById(cardId);
+      const svg = card.querySelector('svg');
+      if (!svg) {
+        alert('Biểu đồ đang hiển thị, vui lòng thử lại sau vài giây.');
+        return;
+      }
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = function () {
+        const scale = 2; // High resolution 2x
+        const bbox = svg.getBoundingClientRect();
+        const width = (bbox.width || 900) * scale;
+        const height = (bbox.height || 600) * scale;
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+
+        const pngUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = (fileName || 'SportBooking_Diagram') + '.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+      img.src = url;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+import React, { useEffect, useState } from 'react';
+import { QrCode } from 'lucide-react';
+import { api } from '../../services/api';
+import type { ApiResponse, Attendance, WorkSchedule } from '../../types';
+import { useToast } from '../../components/common/Toast';
+import { Button, DataTableShell, FormField, ModalShell, PageHeader, StatusBadge } from '../../components/ui';
+import { formatAttendanceStatus, formatTimeVi } from '../../utils/formatters';
+
+export const StaffAttendancePage: React.FC = () => {
+  const { showToast } = useToast();
+  const [attendances, setAttendances] = useState<Attendance[]>([]);
+  const [todaySchedule, setTodaySchedule] = useState<WorkSchedule | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [qrTokenInput, setQrTokenInput] = useState('');
+  const [qrSubmitting, setQrSubmitting] = useState(false);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const fetchData = async () => { setLoading(true); try { const [attendanceRes, scheduleRes] = await Promise.all([api.get<ApiResponse<Attendance[]>>('/attendance/my'), api.get<ApiResponse<WorkSchedule[]>>(`/work-schedules/my?date=${todayStr}`)]); if (attendanceRes.data.success) setAttendances(attendanceRes.data.data); if (scheduleRes.data.success && scheduleRes.data.data.length) setTodaySchedule(scheduleRes.data.data[0]); } catch (error) { console.error('Error fetching attendance list:', error); } finally { setLoading(false); } };
+  useEffect(() => { fetchData(); }, []);
+  const handleQrCheckIn = async (event: React.FormEvent) => { event.preventDefault(); if (!todaySchedule) { showToast('Hôm nay bạn không có ca làm việc nào', 'error'); return; } if (!qrTokenInput.trim()) { showToast('Vui lòng nhập mã QR token', 'error'); return; } setQrSubmitting(true); try { const res = await api.post<ApiResponse<Attendance>>('/attendance/check-in', { workScheduleId: todaySchedule._id, qrToken: qrTokenInput.trim(), note: 'Chấm công quét mã QR tại sân' }); if (res.data.success) { showToast('Chấm công QR thành công!', 'success'); setQrModalOpen(false); setQrTokenInput(''); fetchData(); } } catch (error: any) { showToast(error.response?.data?.message || 'Quét mã QR thất bại', 'error'); } finally { setQrSubmitting(false); } };
+  const attendanceTone = (status: Attendance['status']) => status === 'present' ? 'success' : status === 'late' ? 'warning' : 'danger';
+  return <div className="space-y-7"><PageHeader eyebrow="Staff portal" title="Chấm công & lịch sử chuyên cần" description="Theo dõi giờ vào, giờ ra và số giờ làm việc thực tế của từng ca." action={todaySchedule ? <Button tone="ink" onClick={() => setQrModalOpen(true)}><QrCode className="h-4 w-4" /> Quét mã QR sân</Button> : undefined} /><DataTableShell loading={loading} empty={!loading && attendances.length === 0} emptyTitle="Chưa có bản ghi chấm công"><div className="overflow-x-auto"><table className="sb-table"><thead><tr><th>Ngày</th><th>Ca làm việc</th><th>Sân phân công</th><th>Giờ vào</th><th>Giờ ra</th><th>Giờ làm</th><th>Trạng thái</th><th>Xác thực</th></tr></thead><tbody>{attendances.map((attendance) => <tr key={attendance._id}><td className="font-bold text-[var(--sb-ink)]">{attendance.date}</td><td>{attendance.workSchedule?.shift?.name || 'Ca làm'}</td><td>{attendance.workSchedule?.court?.name || 'Trung tâm chính'}</td><td className="font-mono">{attendance.checkIn ? formatTimeVi(attendance.checkIn) : '--:--'}</td><td className="font-mono">{attendance.checkOut ? formatTimeVi(attendance.checkOut) : '--:--'}</td><td className="font-bold text-[var(--sb-accent)]">{attendance.workHours ? `${attendance.workHours}h` : '0h'}</td><td><StatusBadge tone={attendanceTone(attendance.status)}>{formatAttendanceStatus(attendance.status)}</StatusBadge></td><td><span className="text-xs font-semibold text-[var(--sb-ink-2)]">{attendance.qrVerified ? 'QR đã xác thực' : 'Thủ công'}</span></td></tr>)}</tbody></table></div></DataTableShell><ModalShell open={qrModalOpen} title="Chấm công bằng mã QR" description="Nhập token từ mã QR dán tại quầy lễ tân hoặc do quản lý cung cấp." onClose={() => setQrModalOpen(false)} footer={<><Button tone="quiet" onClick={() => setQrModalOpen(false)}>Đóng</Button><Button tone="accent" loading={qrSubmitting} onClick={handleQrCheckIn}>Xác nhận check-in</Button></>}><form onSubmit={handleQrCheckIn}><FormField label="Mã token từ QR Code" htmlFor="staff-qr-token" required><input id="staff-qr-token" type="text" value={qrTokenInput} onChange={(event) => setQrTokenInput(event.target.value)} placeholder="e3b0c442-98fc-4c14..." className="sb-field font-mono" required /></FormField><button type="submit" className="sr-only">Xác nhận check-in</button></form></ModalShell></div>;
+};
