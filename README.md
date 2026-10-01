@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SportBooking - Hệ Thống Quản Lý & Đặt Sân Thể Thao Toàn Diện
 
 > **Dự án MERN Stack chuyên nghiệp (Node.js, Express, React, TypeScript, Vite, Tailwind CSS, MongoDB & Mongoose)** phục vụ quản lý và vận hành trung tâm thể thao đa năng dành cho Khách hàng, Nhân viên (Staff), Quản lý (Manager) và Quản trị viên (Admin).
@@ -459,3 +460,6 @@ npm run build
 2. Tích hợp lưu trữ hình ảnh Cloudinary / AWS S3 SDK thay thế URL ngoài.
 3. Gửi thông báo tự động (Websocket / FCM Push Notifications) khi có booking mới hoặc khi đơn nghỉ phép được duyệt.
 4. Ứng dụng di động Mobile App (React Native / Flutter) cho nhân viên quét QR trên camera trực tiếp.
+=======
+# WebDatSan-Sport
+>>>>>>> 78ebfe4c61aab4a19e04730d264e240228f6a89c
